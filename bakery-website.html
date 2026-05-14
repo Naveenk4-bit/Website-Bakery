@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golden Crumb Bakery</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --espresso: #1E0F08;
+  --brown: #3D1C0A;
+  --caramel: #8B4513;
+  --gold: #C8902A;
+  --cream: #FFF8EE;
+  --warm-white: #FFFCF7;
+  --rose: #F9C4B0;
+  --text-dark: #1E0F08;
+  --text-mid: #5C3D2E;
+  --text-light: #9E7B6A;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(255,248,238,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(200,144,42,0.18);
+  padding: 14px 56px; display: flex; align-items: center; justify-content: space-between;
+}
+.logo { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--espresso); cursor: pointer; letter-spacing: -0.5px; user-select: none; }
+.logo span { color: var(--gold); }
+nav ul { list-style: none; display: flex; gap: 36px; }
+nav ul li a { font-size: 14px; font-weight: 500; letter-spacing: 0.3px; color: var(--text-mid); text-decoration: none; transition: color 0.2s; }
+nav ul li a:hover { color: var(--gold); }
+.admin-btn { background: var(--espresso); color: #fff; border: none; padding: 9px 22px; border-radius: 28px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500; letter-spacing: 0.3px; transition: background 0.2s, transform 0.15s; }
+.admin-btn:hover { background: var(--caramel); transform: translateY(-1px); }
+
+/* HERO */
+.hero {
+  min-height: 100vh; background: linear-gradient(135deg, #FFF8EE 0%, #FDECD5 45%, #F5D8B2 100%);
+  display: flex; align-items: center; padding: 130px 56px 80px; position: relative; overflow: hidden;
+}
+.hero::before { content:''; position:absolute; top:-80px; right:-80px; width:700px; height:700px; background:radial-gradient(circle, rgba(200,144,42,0.1) 0%, transparent 65%); border-radius:50%; }
+.hero::after { content:''; position:absolute; bottom:-120px; left:-60px; width:500px; height:500px; background:radial-gradient(circle, rgba(139,69,19,0.06) 0%, transparent 70%); border-radius:50%; }
+.hero-content { max-width: 560px; position: relative; z-index: 1; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(200,144,42,0.14); color: var(--caramel); font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 16px; border-radius: 28px; margin-bottom: 28px; border: 1px solid rgba(200,144,42,0.25); }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(46px, 5.5vw, 68px); line-height: 1.1; color: var(--espresso); margin-bottom: 22px; }
+.hero h1 em { font-style: italic; color: var(--gold); display: block; }
+.hero p { font-size: 17px; color: var(--text-mid); line-height: 1.75; margin-bottom: 38px; font-weight: 300; max-width: 460px; }
+.hero-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.btn-primary { background: var(--espresso); color: #fff; padding: 14px 34px; border-radius: 34px; font-size: 15px; font-weight: 500; text-decoration: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: transform 0.2s, background 0.2s, box-shadow 0.2s; display: inline-block; box-shadow: 0 4px 20px rgba(30,15,8,0.2); }
+.btn-primary:hover { background: var(--caramel); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(30,15,8,0.25); }
+.btn-outline { background: transparent; color: var(--espresso); padding: 14px 34px; border-radius: 34px; font-size: 15px; font-weight: 500; text-decoration: none; border: 2px solid var(--espresso); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; display: inline-block; }
+.btn-outline:hover { background: var(--espresso); color: #fff; transform: translateY(-3px); }
+.hero-visual { position: absolute; right: 80px; top: 50%; transform: translateY(-50%); width: 480px; height: 480px; }
+.hero-circle { width: 420px; height: 420px; background: linear-gradient(145deg, #FDECD5, #F0C898); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 160px; box-shadow: 0 40px 100px rgba(139,69,19,0.22), 0 10px 40px rgba(139,69,19,0.12); animation: float 5s ease-in-out infinite; }
+@keyframes float { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-18px) rotate(2deg); } }
+.floating-tags { position: absolute; }
+.ftag { background: white; border-radius: 18px; padding: 10px 18px; font-size: 13px; font-weight: 500; color: var(--text-dark); box-shadow: 0 8px 28px rgba(0,0,0,0.1); white-space: nowrap; animation: float 5s ease-in-out infinite; }
+.ftag-1 { position: absolute; top: 50px; left: -70px; animation-delay: 0.5s; }
+.ftag-2 { position: absolute; bottom: 130px; right: -50px; animation-delay: 1.2s; }
+.ftag-3 { position: absolute; top: 210px; left: -90px; animation-delay: 0.8s; }
+
+/* STRIP */
+.strip { background: var(--espresso); padding: 18px 0; overflow: hidden; white-space: nowrap; }
+.strip-inner { display: inline-flex; gap: 48px; animation: slide 20s linear infinite; }
+.strip span { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+.strip .dot { color: var(--gold); font-size: 18px; }
+@keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* MENU */
+.menu-section { padding: 100px 56px; background: var(--warm-white); }
+.section-header { text-align: center; margin-bottom: 52px; }
+.section-label { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 3.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 44px; color: var(--espresso); line-height: 1.15; }
+.section-subtitle { font-size: 16px; color: var(--text-light); margin-top: 12px; font-weight: 300; }
+.categories { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 52px; }
+.cat-btn { padding: 9px 24px; border-radius: 34px; border: 1.5px solid #E2C9B0; background: transparent; color: var(--text-mid); font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+.cat-btn:hover { border-color: var(--espresso); color: var(--espresso); }
+.cat-btn.active { background: var(--espresso); color: #fff; border-color: var(--espresso); box-shadow: 0 4px 16px rgba(30,15,8,0.2); }
+.items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 28px; }
+.item-card { background: white; border-radius: 22px; overflow: hidden; box-shadow: 0 4px 24px rgba(139,69,19,0.07); transition: transform 0.3s, box-shadow 0.3s; animation: fadein 0.4s ease; }
+@keyframes fadein { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+.item-card:hover { transform: translateY(-10px); box-shadow: 0 20px 56px rgba(139,69,19,0.16); }
+.item-img { height: 200px; display: flex; align-items: center; justify-content: center; font-size: 80px; position: relative; }
+.item-badge { position: absolute; top: 14px; right: 14px; background: var(--gold); color: white; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; padding: 4px 12px; border-radius: 14px; }
+.item-info { padding: 20px 24px 26px; }
+.item-name { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--espresso); margin-bottom: 7px; }
+.item-desc { font-size: 13px; color: var(--text-light); line-height: 1.65; margin-bottom: 18px; font-weight: 300; }
+.item-footer { display: flex; align-items: center; justify-content: space-between; }
+.item-price { font-size: 22px; font-weight: 600; color: var(--espresso); }
+.item-price span { font-size: 13px; font-weight: 400; color: var(--text-light); }
+.wa-btn { background: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 26px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 7px; transition: background 0.2s, transform 0.2s; text-decoration: none; }
+.wa-btn:hover { background: #1ebe5d; transform: scale(1.04); }
+.wa-btn svg { width: 16px; height: 16px; fill: white; flex-shrink: 0; }
+
+/* TESTIMONIALS */
+.testi-section { padding: 90px 56px; background: var(--cream); }
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 52px; }
+.testi-card { background: white; border-radius: 20px; padding: 28px 28px 24px; box-shadow: 0 4px 20px rgba(139,69,19,0.06); }
+.testi-stars { font-size: 16px; margin-bottom: 14px; letter-spacing: 2px; }
+.testi-text { font-size: 15px; line-height: 1.75; color: var(--text-mid); font-weight: 300; margin-bottom: 20px; font-style: italic; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #FDECD5, #F0C898); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.testi-name { font-weight: 500; font-size: 14px; color: var(--espresso); }
+.testi-loc { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+
+/* ABOUT */
+.about-section { padding: 100px 56px; background: var(--espresso); color: white; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.about-visual { position: relative; }
+.about-emoji-big { font-size: 140px; text-align: center; line-height: 1; display: block; animation: float 5s ease-in-out infinite; }
+.about-card-float { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 16px 20px; margin-top: 24px; text-align: center; }
+.about-card-float p { font-size: 13px; color: rgba(255,255,255,0.6); }
+.about-card-float strong { display: block; font-size: 22px; color: var(--gold); font-family: 'Playfair Display', serif; margin-top: 4px; }
+.about-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; font-weight: 600; }
+.about h2 { font-family: 'Playfair Display', serif; font-size: 42px; line-height: 1.2; margin-bottom: 20px; }
+.about p { font-size: 16px; line-height: 1.85; color: rgba(255,255,255,0.68); font-weight: 300; margin-bottom: 14px; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 44px; padding-top: 44px; border-top: 1px solid rgba(255,255,255,0.12); }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 38px; color: var(--gold); font-weight: 700; }
+.stat-label { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 4px; font-weight: 300; }
+
+/* FOOTER */
+footer { background: #0E0603; padding: 52px 56px 36px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 40px; }
+.footer-brand .logo { display: block; margin-bottom: 14px; font-size: 24px; color: rgba(255,255,255,0.85); }
+.footer-brand p { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.8; font-weight: 300; max-width: 280px; }
+.footer-col h4 { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+.footer-col p, .footer-col a { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 2; text-decoration: none; display: block; transition: color 0.2s; font-weight: 300; }
+.footer-col a:hover { color: rgba(255,255,255,0.8); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px; display: flex; align-items: center; justify-content: space-between; }
+.footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.3); }
+
+/* FLOATING WA */
+.wa-float { position: fixed; bottom: 32px; right: 32px; z-index: 998; background: #25D366; color: white; width: 62px; height: 62px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 36px rgba(37,211,102,0.4); cursor: pointer; text-decoration: none; transition: transform 0.2s; animation: wapulse 2.5s infinite; }
+.wa-float:hover { transform: scale(1.12); animation: none; box-shadow: 0 12px 48px rgba(37,211,102,0.55); }
+.wa-float svg { width: 32px; height: 32px; fill: white; }
+@keyframes wapulse { 0%,100% { box-shadow: 0 8px 36px rgba(37,211,102,0.4); } 50% { box-shadow: 0 8px 52px rgba(37,211,102,0.65); } }
+.wa-float-label { position: absolute; right: 74px; background: var(--espresso); color: white; font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 20px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: 'DM Sans', sans-serif; }
+.wa-float:hover .wa-float-label { opacity: 1; }
+
+/* ============ ADMIN OVERLAY ============ */
+#admin-overlay { display: none; position: fixed; inset: 0; z-index: 9999; background: var(--cream); overflow-y: auto; }
+#admin-overlay.open { display: block; }
+
+#login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1E0F08 0%, #3D1C0A 60%, #5C2A10 100%); }
+.login-card { background: white; border-radius: 28px; padding: 52px 44px; width: 400px; text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.35); }
+.login-icon { font-size: 52px; margin-bottom: 16px; display: block; }
+.login-card h2 { font-family: 'Playfair Display', serif; font-size: 30px; color: var(--espresso); margin-bottom: 6px; }
+.login-card p { font-size: 14px; color: var(--text-light); margin-bottom: 34px; font-weight: 300; }
+.login-input { width: 100%; padding: 14px 18px; border: 1.5px solid #E2C9B0; border-radius: 14px; font-size: 15px; font-family: 'DM Sans', sans-serif; outline: none; margin-bottom: 16px; transition: border-color 0.2s; color: var(--text-dark); }
+.login-input:focus { border-color: var(--gold); }
+.login-btn { width: 100%; padding: 15px; background: var(--espresso); color: white; border: none; border-radius: 34px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s; }
+.login-btn:hover { background: var(--caramel); }
+.login-error { color: #C0392B; font-size: 13px; margin-top: 14px; display: none; }
+.login-hint { font-size: 12px; color: #ccc; margin-top: 20px; }
+
+.admin-wrap { display: none; }
+.admin-wrap.show { display: block; }
+.admin-header { background: var(--espresso); padding: 18px 44px; display: flex; align-items: center; justify-content: space-between; }
+.admin-logo { font-family: 'Playfair Display', serif; font-size: 22px; color: white; }
+.admin-logo span { color: var(--gold); }
+.admin-nav { display: flex; align-items: center; gap: 12px; }
+.aclose { background: rgba(255,255,255,0.12); border: none; color: white; padding: 8px 22px; border-radius: 22px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; transition: background 0.2s; }
+.aclose:hover { background: rgba(255,255,255,0.22); }
+.admin-body { max-width: 1080px; margin: 0 auto; padding: 52px 44px; }
+.atabs { display: flex; gap: 4px; margin-bottom: 44px; background: rgba(0,0,0,0.06); padding: 4px; border-radius: 14px; width: fit-content; }
+.atab { padding: 10px 26px; border-radius: 11px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-mid); background: transparent; transition: all 0.2s; }
+.atab.active { background: var(--espresso); color: white; box-shadow: 0 4px 14px rgba(30,15,8,0.25); }
+.apanel { display: none; }
+.apanel.active { display: block; }
+
+.fcard { background: white; border-radius: 22px; padding: 36px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 28px; }
+.fcard h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--espresso); margin-bottom: 28px; }
+.fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.fg { display: flex; flex-direction: column; gap: 7px; }
+.fg.full { grid-column: 1 / -1; }
+.fg label { font-size: 13px; font-weight: 500; color: var(--text-mid); }
+.fg input, .fg select, .fg textarea { padding: 12px 16px; border: 1.5px solid #E2C9B0; border-radius: 12px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text-dark); outline: none; transition: border-color 0.2s; background: white; }
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--gold); }
+.fg textarea { resize: vertical; min-height: 80px; }
+.emoji-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.eopt { width: 46px; height: 46px; border-radius: 12px; border: 2px solid #E2C9B0; background: white; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.18s; }
+.eopt:hover { border-color: var(--caramel); }
+.eopt.sel { border-color: var(--gold); background: rgba(200,144,42,0.1); }
+.color-row { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 6px; }
+.copt { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: border-color 0.18s, transform 0.18s; }
+.copt:hover { transform: scale(1.1); }
+.copt.sel { border-color: var(--espresso); }
+.savebtn { background: var(--espresso); color: white; border: none; padding: 14px 36px; border-radius: 34px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 20px; transition: background 0.2s, transform 0.15s; }
+.savebtn:hover { background: var(--caramel); transform: translateY(-2px); }
+.clearbtn { background: #f0ebe6; color: var(--text-mid); border: none; padding: 14px 28px; border-radius: 34px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 20px; margin-left: 10px; transition: background 0.2s; }
+.clearbtn:hover { background: #e5ddd5; }
+
+.alist { display: grid; gap: 12px; }
+.aitem { background: white; border-radius: 18px; padding: 20px 26px; display: flex; align-items: center; gap: 20px; box-shadow: 0 2px 14px rgba(0,0,0,0.05); transition: box-shadow 0.2s; }
+.aitem:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.09); }
+.aitem-emoji { font-size: 42px; }
+.aitem-info { flex: 1; }
+.aitem-name { font-weight: 600; color: var(--espresso); font-size: 16px; }
+.aitem-meta { font-size: 13px; color: var(--text-light); margin-top: 3px; }
+.aitem-price { font-weight: 600; color: var(--gold); font-size: 20px; margin-right: 16px; white-space: nowrap; }
+.aitem-actions { display: flex; gap: 8px; }
+.ebtn, .dbtn { padding: 8px 18px; border-radius: 22px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; border: none; transition: all 0.2s; }
+.ebtn { background: rgba(200,144,42,0.1); color: #8B4513; }
+.ebtn:hover { background: rgba(200,144,42,0.2); }
+.dbtn { background: rgba(192,57,43,0.08); color: #a93226; }
+.dbtn:hover { background: rgba(192,57,43,0.16); }
+
+.toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--espresso); color: white; padding: 14px 28px; border-radius: 28px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; box-shadow: 0 8px 32px rgba(0,0,0,0.2); z-index: 10000; transition: transform 0.3s; pointer-events: none; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 900px) {
+  nav { padding: 14px 20px; }
+  nav ul { display: none; }
+  .hero { padding: 110px 20px 60px; }
+  .hero-visual { display: none; }
+  .menu-section, .testi-section, .about-section { padding: 60px 20px; }
+  .about-section { grid-template-columns: 1fr; gap: 40px; }
+  .testi-grid { grid-template-columns: 1fr; }
+  footer { padding: 40px 20px 24px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .admin-body { padding: 32px 20px; }
+  .fgrid { grid-template-columns: 1fr; }
+  .atabs { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" id="logo-el">Golden <span>Crumb</span></div>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="admin-btn" onclick="openAdmin()">🔐 Admin Portal</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-badge">🌾 Baked Fresh Every Morning</div>
+    <h1>Handcrafted with <em>Love &amp; Flour</em></h1>
+    <p>Every bite tells a story of tradition, passion, and the finest ingredients. From our warm oven to your heart — pure joy in every crumb.</p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn-primary">Explore Menu</a>
+      <a href="#about" class="btn-outline">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div style="position:relative;width:420px;">
+      <div class="hero-circle">🎂</div>
+      <div class="floating-tags">
+        <div class="ftag ftag-1">⭐ 4.9 Rating</div>
+        <div class="ftag ftag-2">🕐 Daily Fresh</div>
+        <div class="ftag ftag-3">🌿 All Natural</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCROLLING STRIP -->
+<div class="strip">
+  <div class="strip-inner" id="strip-inner">
+    <span>Fresh Baked Daily</span><span class="dot">✦</span>
+    <span>Order via WhatsApp</span><span class="dot">✦</span>
+    <span>Celebration Cakes</span><span class="dot">✦</span>
+    <span>Artisan Breads</span><span class="dot">✦</span>
+    <span>Premium Pastries</span><span class="dot">✦</span>
+    <span>Handcrafted Cookies</span><span class="dot">✦</span>
+    <span>Fresh Baked Daily</span><span class="dot">✦</span>
+    <span>Order via WhatsApp</span><span class="dot">✦</span>
+    <span>Celebration Cakes</span><span class="dot">✦</span>
+    <span>Artisan Breads</span><span class="dot">✦</span>
+    <span>Premium Pastries</span><span class="dot">✦</span>
+    <span>Handcrafted Cookies</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- MENU SECTION -->
+<section class="menu-section" id="menu">
+  <div class="section-header">
+    <div class="section-label">Our Menu</div>
+    <h2 class="section-title">Freshly Baked Favourites</h2>
+    <p class="section-subtitle">Each item crafted with care, using time-honoured recipes</p>
+  </div>
+  <div class="categories" id="categories">
+    <button class="cat-btn active" data-cat="all">All Items</button>
+    <button class="cat-btn" data-cat="cakes">🎂 Cakes</button>
+    <button class="cat-btn" data-cat="breads">🍞 Breads</button>
+    <button class="cat-btn" data-cat="pastries">🥐 Pastries</button>
+    <button class="cat-btn" data-cat="cookies">🍪 Cookies</button>
+    <button class="cat-btn" data-cat="beverages">☕ Beverages</button>
+  </div>
+  <div class="items-grid" id="items-grid"></div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="section-header">
+    <div class="section-label">Happy Customers</div>
+    <h2 class="section-title">What People Say</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+      <p class="testi-text">"The chocolate truffle cake was absolutely divine. My family couldn't believe it was from a local bakery — it tasted like something from a five-star hotel!"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👩</div>
+        <div><div class="testi-name">Priya Sharma</div><div class="testi-loc">Krishnagiri</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+      <p class="testi-text">"Ordered for my daughter's birthday via WhatsApp — so easy! The cake was delivered on time and looked exactly as expected. Highly recommend!"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👨</div>
+        <div><div class="testi-name">Rajan Kumar</div><div class="testi-loc">Hosur</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+      <p class="testi-text">"The sourdough bread is incredible! I pick it up every Saturday morning. The crust, the flavour — nothing compares. This is our family's bakery now."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👩</div>
+        <div><div class="testi-name">Meena Nair</div><div class="testi-loc">Salem</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-visual">
+    <span class="about-emoji-big">👩‍🍳</span>
+    <div class="about-card-float">
+      <p>Trusted by families since</p>
+      <strong>1995 · 28 Years</strong>
+    </div>
+  </div>
+  <div class="about">
+    <div class="about-label">Our Story</div>
+    <h2>Born from a Grandmother's Kitchen</h2>
+    <p>Golden Crumb began in a small home kitchen where every morning was blessed with the scent of fresh bread and warm chai. We've carried that spirit forward — baking not just treats, but memories.</p>
+    <p>Every recipe is tested by tradition, every ingredient sourced with care. We believe in slow-baked goodness that nourishes body and soul.</p>
+    <div class="stats">
+      <div><div class="stat-num">28+</div><div class="stat-label">Years of Baking</div></div>
+      <div><div class="stat-num">150+</div><div class="stat-label">Orders Daily</div></div>
+      <div><div class="stat-num">40+</div><div class="stat-label">Menu Items</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Golden <span>Crumb</span></div>
+      <p>Handcrafted baked goods made with love, tradition, and the finest ingredients. Fresh from our oven to your table every single day.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#home">Home</a>
+      <a href="#menu">Our Menu</a>
+      <a href="#about">Our Story</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <p id="footer-addr">📍 123 Bakery Lane, Krishnagiri, Tamil Nadu</p>
+      <p id="footer-phone">📞 +91 98765 43210</p>
+      <p>🕗 Open: 7 AM – 9 PM</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p id="footer-brand-name">© 2025 Golden Crumb Bakery. Made with 🧡</p>
+    <p style="font-size:12px;">Order easily via WhatsApp →</p>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a class="wa-float" id="wa-float" href="#" target="_blank">
+  <div class="wa-float-label">Order on WhatsApp</div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.855L.057 23.927a.5.5 0 0 0 .609.637l6.337-1.658A11.934 11.934 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-5.032-1.384l-.36-.214-3.733.977.999-3.645-.235-.374A9.786 9.786 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+</a>
+
+<!-- ============= ADMIN OVERLAY ============= -->
+<div id="admin-overlay">
+
+  <!-- LOGIN -->
+  <div id="login-screen">
+    <div class="login-card">
+      <span class="login-icon">🔐</span>
+      <h2>Admin Portal</h2>
+      <p>Sign in to manage your bakery website</p>
+      <input type="password" class="login-input" id="admin-pass" placeholder="Enter your password" />
+      <button class="login-btn" onclick="doLogin()">Sign In</button>
+      <div class="login-error" id="login-err">❌ Incorrect password. Please try again.</div>
+      <p class="login-hint">Default password: admin123</p>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="admin-wrap" id="admin-wrap">
+    <div class="admin-header">
+      <div class="admin-logo">🧁 Golden <span>Crumb</span> — Admin</div>
+      <div class="admin-nav">
+        <button class="aclose" onclick="closeAdmin()">✕ Back to Site</button>
+      </div>
+    </div>
+    <div class="admin-body">
+      <div class="atabs">
+        <button class="atab active" onclick="goTab('items',this)">📋 All Items</button>
+        <button class="atab" onclick="goTab('add',this)">➕ Add Item</button>
+        <button class="atab" onclick="goTab('settings',this)">⚙️ Settings</button>
+      </div>
+
+      <!-- TAB: ALL ITEMS -->
+      <div class="apanel active" id="tab-items">
+        <div class="fcard">
+          <h3>Menu Items <span style="font-size:16px;color:var(--text-light);font-family:'DM Sans',sans-serif;font-weight:400;" id="item-count"></span></h3>
+          <div class="alist" id="alist"></div>
+        </div>
+      </div>
+
+      <!-- TAB: ADD/EDIT ITEM -->
+      <div class="apanel" id="tab-add">
+        <div class="fcard">
+          <h3 id="form-title">Add New Item</h3>
+          <input type="hidden" id="eid">
+          <div class="fgrid">
+            <div class="fg">
+              <label>Item Name *</label>
+              <input type="text" id="fn" placeholder="e.g. Chocolate Truffle Cake">
+            </div>
+            <div class="fg">
+              <label>Category *</label>
+              <select id="fc">
+                <option value="cakes">🎂 Cakes</option>
+                <option value="breads">🍞 Breads</option>
+                <option value="pastries">🥐 Pastries</option>
+                <option value="cookies">🍪 Cookies</option>
+                <option value="beverages">☕ Beverages</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Price (₹) *</label>
+              <input type="number" id="fp" placeholder="e.g. 350" min="0">
+            </div>
+            <div class="fg">
+              <label>Badge (optional)</label>
+              <input type="text" id="fb" placeholder="Best Seller, New!, etc.">
+            </div>
+            <div class="fg full">
+              <label>Short Description</label>
+              <textarea id="fd" placeholder="Describe the item in a few words..."></textarea>
+            </div>
+            <div class="fg full">
+              <label>Choose Emoji / Icon</label>
+              <div class="emoji-row" id="emoji-row"></div>
+              <input type="hidden" id="fe" value="🎂">
+            </div>
+            <div class="fg">
+              <label>Card Background Color</label>
+              <div class="color-row" id="color-row"></div>
+              <input type="hidden" id="fclr" value="#FFF5E6">
+            </div>
+          </div>
+          <button class="savebtn" onclick="saveItem()">💾 Save Item</button>
+          <button class="clearbtn" onclick="clearForm()">Clear</button>
+        </div>
+      </div>
+
+      <!-- TAB: SETTINGS -->
+      <div class="apanel" id="tab-settings">
+        <div class="fcard">
+          <h3>📱 WhatsApp Settings</h3>
+          <div class="fgrid">
+            <div class="fg">
+              <label>WhatsApp Number (with country code)</label>
+              <input type="text" id="swa" placeholder="919876543210">
+            </div>
+            <div class="fg">
+              <label>Pre-filled Order Message</label>
+              <input type="text" id="smsg" placeholder="Hi, I'd like to order...">
+            </div>
+          </div>
+          <button class="savebtn" onclick="saveWA()">Save WhatsApp</button>
+        </div>
+        <div class="fcard">
+          <h3>🏪 Bakery Info</h3>
+          <div class="fgrid">
+            <div class="fg">
+              <label>Bakery Name</label>
+              <input type="text" id="sname" placeholder="Golden Crumb Bakery">
+            </div>
+            <div class="fg">
+              <label>Phone</label>
+              <input type="text" id="sphone" placeholder="+91 98765 43210">
+            </div>
+            <div class="fg full">
+              <label>Address</label>
+              <input type="text" id="saddr" placeholder="123 Bakery Lane, City">
+            </div>
+          </div>
+          <button class="savebtn" onclick="saveBakery()">Save Info</button>
+        </div>
+        <div class="fcard">
+          <h3>🔒 Change Password</h3>
+          <div class="fg" style="max-width:300px">
+            <label>New Password</label>
+            <input type="password" id="snewpass" placeholder="Enter new password">
+          </div>
+          <div class="fg" style="max-width:300px;margin-top:12px">
+            <label>Confirm Password</label>
+            <input type="password" id="sconfpass" placeholder="Confirm new password">
+          </div>
+          <button class="savebtn" onclick="changePass()">Update Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const EMOJIS = ['🎂','🍰','🧁','🍩','🍮','🥮','🍡','🍞','🥐','🥖','🫓','🥨','🍪','🍫','🍬','🍭','☕','🧋','🥛','🍵','🧇','🥧','🫖','🍱'];
+const COLORS = ['#FFF5E6','#FFE8F0','#E6F5FF','#E8FFE8','#FFF0E8','#F0E8FF','#FDECD5','#E8F8F5','#FFF9E6','#F5E8E8'];
+
+let items = [], S = {}, isLogged = false;
+
+function loadAll() {
+  const iv = localStorage.getItem('gcb_items');
+  items = iv ? JSON.parse(iv) : [
+    {id:1,name:'Chocolate Truffle Cake',cat:'cakes',price:650,desc:'Rich dark chocolate layers with silky ganache and dreamy truffle filling.',emoji:'🎂',badge:'Best Seller',color:'#FFF5E6'},
+    {id:2,name:'Sourdough Loaf',cat:'breads',price:180,desc:'Slow-fermented wild yeast bread. Crispy crust, airy chewy crumb.',emoji:'🍞',badge:'',color:'#FDECD5'},
+    {id:3,name:'Butter Croissant',cat:'pastries',price:80,desc:'Flaky golden layers of buttery laminated pastry. Served warm.',emoji:'🥐',badge:'Fresh Today',color:'#FFF5E6'},
+    {id:4,name:'Choco Chip Cookies',cat:'cookies',price:120,desc:'Classic cookies loaded with premium chocolate chips. Pack of 6.',emoji:'🍪',badge:'',color:'#FFE8F0'},
+    {id:5,name:'Filter Coffee',cat:'beverages',price:60,desc:'South Indian style filter coffee, freshly brewed and aromatic.',emoji:'☕',badge:'',color:'#E6F5FF'},
+    {id:6,name:'Red Velvet Cake',cat:'cakes',price:720,desc:'Velvety red layers with luscious cream cheese frosting.',emoji:'🍰',badge:'New!',color:'#FFE8F0'},
+    {id:7,name:'Multigrain Bread',cat:'breads',price:160,desc:'Wholesome blend of seeds and grains. Perfect for sandwiches.',emoji:'🥖',badge:'Healthy',color:'#E8FFE8'},
+    {id:8,name:'Mango Pastry',cat:'pastries',price:95,desc:'Light chiffon base with fresh mango cream and fruit topping.',emoji:'🍮',badge:'',color:'#FFF9E6'},
+  ];
+  const sv = localStorage.getItem('gcb_settings');
+  S = sv ? JSON.parse(sv) : {wa:'919876543210',msg:'Hi! I want to order from Golden Crumb Bakery 🧁',pass:'admin123',name:'Golden Crumb Bakery',phone:'+91 98765 43210',addr:'123 Bakery Lane, Krishnagiri, Tamil Nadu'};
+}
+function saveItems() { localStorage.setItem('gcb_items', JSON.stringify(items)); }
+function saveS() { localStorage.setItem('gcb_settings', JSON.stringify(S)); }
+
+function waLink(name, price) {
+  const n = S.wa.replace(/\D/g,'');
+  const m = encodeURIComponent(S.msg + '\n\n📦 Item: ' + name + '\n💰 Price: ₹' + price);
+  return 'https://wa.me/' + n + '?text=' + m;
+}
+
+function updateWaFloat() {
+  const n = S.wa.replace(/\D/g,'');
+  const m = encodeURIComponent(S.msg);
+  document.getElementById('wa-float').href = 'https://wa.me/' + n + '?text=' + m;
+}
+
+function renderMenu(cat) {
+  cat = cat || 'all';
+  const grid = document.getElementById('items-grid');
+  const filtered = cat === 'all' ? items : items.filter(i => i.cat === cat);
+  if (!filtered.length) {
+    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-light);padding:60px 0;font-size:16px">No items in this category yet.</p>';
+    return;
+  }
+  grid.innerHTML = filtered.map(item => `
+    <div class="item-card">
+      <div class="item-img" style="background:${item.color}">
+        ${item.emoji}
+        ${item.badge ? '<div class="item-badge">'+item.badge+'</div>' : ''}
+      </div>
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-desc">${item.desc || ''}</div>
+        <div class="item-footer">
+          <div class="item-price">₹${item.price} <span>/ piece</span></div>
+          <a class="wa-btn" href="${waLink(item.name, item.price)}" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.855L.057 23.927a.5.5 0 0 0 .609.637l6.337-1.658A11.934 11.934 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-5.032-1.384l-.36-.214-3.733.977.999-3.645-.235-.374A9.786 9.786 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+            Order
+          </a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('categories').addEventListener('click', e => {
+  const b = e.target.closest('.cat-btn');
+  if (!b) return;
+  document.querySelectorAll('.cat-btn').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  renderMenu(b.dataset.cat);
+});
+
+function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('open');
+  if (isLogged) showDash();
+  else { document.getElementById('login-screen').style.display='flex'; document.getElementById('admin-wrap').classList.remove('show'); }
+}
+function closeAdmin() { document.getElementById('admin-overlay').classList.remove('open'); }
+
+function doLogin() {
+  const p = document.getElementById('admin-pass').value;
+  if (p === S.pass) { isLogged=true; showDash(); }
+  else { document.getElementById('login-err').style.display='block'; }
+}
+document.getElementById('admin-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+function showDash() {
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('admin-wrap').classList.add('show');
+  renderAList();
+  loadSettingsForm();
+}
+
+function goTab(name, el) {
+  document.querySelectorAll('.apanel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.atab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  el.classList.add('active');
+  if (name==='items') renderAList();
+  if (name==='add') { clearForm(); buildPickers(); }
+}
+
+function buildPickers() {
+  document.getElementById('emoji-row').innerHTML = EMOJIS.map(e => 
+    `<div class="eopt ${e===document.getElementById('fe').value?'sel':''}" onclick="pickEmoji(this,'${e}')">${e}</div>`
+  ).join('');
+  document.getElementById('color-row').innerHTML = COLORS.map(c => 
+    `<div class="copt ${c===document.getElementById('fclr').value?'sel':''}" style="background:${c}" onclick="pickColor(this,'${c}')"></div>`
+  ).join('');
+}
+function pickEmoji(el,v) { document.querySelectorAll('.eopt').forEach(x=>x.classList.remove('sel')); el.classList.add('sel'); document.getElementById('fe').value=v; }
+function pickColor(el,v) { document.querySelectorAll('.copt').forEach(x=>x.classList.remove('sel')); el.classList.add('sel'); document.getElementById('fclr').value=v; }
+
+function saveItem() {
+  const name = document.getElementById('fn').value.trim();
+  const price = parseInt(document.getElementById('fp').value);
+  if (!name || !price) { toast('Please fill in Name and Price'); return; }
+  const eid = document.getElementById('eid').value;
+  const obj = { id: eid ? parseInt(eid) : Date.now(), name, price, cat: document.getElementById('fc').value, desc: document.getElementById('fd').value.trim(), emoji: document.getElementById('fe').value, badge: document.getElementById('fb').value.trim(), color: document.getElementById('fclr').value };
+  if (eid) { const i = items.findIndex(x=>x.id===parseInt(eid)); if(i>-1) items[i]=obj; }
+  else items.push(obj);
+  saveItems(); renderMenu(); clearForm();
+  document.querySelectorAll('.atab')[0].click();
+  toast(eid ? '✅ Item updated!' : '✅ Item added!');
+}
+
+function clearForm() {
+  document.getElementById('eid').value=''; document.getElementById('fn').value=''; document.getElementById('fp').value='';
+  document.getElementById('fb').value=''; document.getElementById('fd').value=''; document.getElementById('fc').value='cakes';
+  document.getElementById('fe').value='🎂'; document.getElementById('fclr').value='#FFF5E6';
+  document.getElementById('form-title').textContent='Add New Item';
+  buildPickers();
+}
+
+function renderAList() {
+  const list = document.getElementById('alist');
+  document.getElementById('item-count').textContent='('+items.length+' items)';
+  if (!items.length) { list.innerHTML='<p style="color:var(--text-light);padding:20px 0">No items yet. Go to "Add Item" to create your first menu item.</p>'; return; }
+  list.innerHTML = items.map(item => `
+    <div class="aitem">
+      <div class="aitem-emoji">${item.emoji}</div>
+      <div class="aitem-info">
+        <div class="aitem-name">${item.name}</div>
+        <div class="aitem-meta">${item.cat}${item.badge?' · '+item.badge:''}</div>
+      </div>
+      <div class="aitem-price">₹${item.price}</div>
+      <div class="aitem-actions">
+        <button class="ebtn" onclick="editItem(${item.id})">✏️ Edit</button>
+        <button class="dbtn" onclick="delItem(${item.id})">🗑 Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function editItem(id) {
+  const item = items.find(i=>i.id===id); if(!item) return;
+  document.getElementById('eid').value=id;
+  document.getElementById('fn').value=item.name;
+  document.getElementById('fc').value=item.cat;
+  document.getElementById('fp').value=item.price;
+  document.getElementById('fb').value=item.badge||'';
+  document.getElementById('fd').value=item.desc||'';
+  document.getElementById('fe').value=item.emoji;
+  document.getElementById('fclr').value=item.color;
+  document.getElementById('form-title').textContent='Edit Item: '+item.name;
+  document.querySelectorAll('.atab')[1].click();
+  buildPickers();
+}
+
+function delItem(id) {
+  if (!confirm('Delete this item? This cannot be undone.')) return;
+  items = items.filter(i=>i.id!==id); saveItems(); renderMenu(); renderAList();
+  toast('🗑 Item deleted');
+}
+
+function loadSettingsForm() {
+  document.getElementById('swa').value=S.wa;
+  document.getElementById('smsg').value=S.msg;
+  document.getElementById('sname').value=S.name||'';
+  document.getElementById('sphone').value=S.phone||'';
+  document.getElementById('saddr').value=S.addr||'';
+}
+function saveWA() {
+  S.wa=document.getElementById('swa').value;
+  S.msg=document.getElementById('smsg').value;
+  saveS(); updateWaFloat(); toast('📱 WhatsApp settings saved!');
+}
+function saveBakery() {
+  S.name=document.getElementById('sname').value;
+  S.phone=document.getElementById('sphone').value;
+  S.addr=document.getElementById('saddr').value;
+  saveS();
+  document.getElementById('footer-addr').textContent='📍 '+S.addr;
+  document.getElementById('footer-phone').textContent='📞 '+S.phone;
+  document.getElementById('footer-brand-name').textContent='© 2025 '+S.name+'. Made with 🧡';
+  toast('🏪 Bakery info updated!');
+}
+function changePass() {
+  const np=document.getElementById('snewpass').value, cp=document.getElementById('sconfpass').value;
+  if (!np) { toast('Enter a new password'); return; }
+  if (np!==cp) { toast('❌ Passwords do not match'); return; }
+  S.pass=np; saveS();
+  document.getElementById('snewpass').value=''; document.getElementById('sconfpass').value='';
+  toast('🔒 Password updated!');
+}
+
+function toast(msg) {
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadAll(); renderMenu(); updateWaFloat(); buildPickers();
+  document.getElementById('footer-addr').textContent='📍 '+(S.addr||'123 Bakery Lane, Krishnagiri');
+  document.getElementById('footer-phone').textContent='📞 '+(S.phone||'+91 98765 43210');
+  document.getElementById('footer-brand-name').textContent='© 2025 '+(S.name||'Golden Crumb Bakery')+'. Made with 🧡';
+});
+</script>
+</body>
+</html>
