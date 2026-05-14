@@ -1,3 +1,5 @@
+"use client";
+
 export default function Hero({ settings }) {
   return (
     <section className="hero" id="home">
