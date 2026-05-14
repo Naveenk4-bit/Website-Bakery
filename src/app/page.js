@@ -37,12 +37,19 @@ export default function Home() {
 
   useEffect(() => {
     const loadData = async () => {
-      const dbItems = await fetchMenuItems();
-      const dbSettings = await fetchSettings();
-      
-      setItems(dbItems && dbItems.length > 0 ? dbItems : MOCK_ITEMS);
-      setSettings(dbSettings || MOCK_SETTINGS);
-      setLoading(false);
+      try {
+        const dbItems = await fetchMenuItems();
+        const dbSettings = await fetchSettings();
+        
+        setItems(dbItems && dbItems.length > 0 ? dbItems : MOCK_ITEMS);
+        setSettings(dbSettings || MOCK_SETTINGS);
+      } catch (error) {
+        console.error("Failed to load data:", error);
+        setItems(MOCK_ITEMS);
+        setSettings(MOCK_SETTINGS);
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadData();
